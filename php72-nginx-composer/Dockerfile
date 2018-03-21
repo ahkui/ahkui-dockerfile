@@ -67,7 +67,8 @@ RUN set -x \
     && echo "https://repos.php.earth/alpine/v3.7" >> /etc/apk/repositories \
     && apk add --no-cache $DEPS \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
-    && ln -sf /dev/stderr /var/log/nginx/error.log
+    && ln -sf /dev/stderr /var/log/nginx/error.log \
+    && pecl install mongodb redis mysql
 
 COPY tags/nginx /
 
