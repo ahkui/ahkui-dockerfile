@@ -70,8 +70,6 @@ RUN set -x \
     && ln -sf /dev/stderr /var/log/nginx/error.log \
     && pecl install mongodb redis mysql
 
-COPY tags/nginx /
-
 EXPOSE 80
 
 CMD ["/sbin/runit-wrapper"]
