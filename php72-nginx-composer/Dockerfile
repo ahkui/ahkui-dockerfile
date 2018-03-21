@@ -51,7 +51,6 @@ ENV \
         php7.2-fpm \
         php7.2-mongodb \
         php7.2-redis \
-        php7.2-mysql \
         composer \
         phpunit \
         curl \
