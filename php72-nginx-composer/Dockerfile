@@ -67,8 +67,10 @@ RUN set -x \
     && echo "https://repos.php.earth/alpine/v3.7" >> /etc/apk/repositories \
     && apk add --no-cache $DEPS \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
-    && ln -sf /dev/stderr /var/log/nginx/error.log \
-    && pecl install mysqli
+    && ln -sf /dev/stderr /var/log/nginx/error.log
+
+RUN apk add php7.2-mysqli
+RUN apk add php7.2-mysql
 
 RUN mkdir /run/nginx \
     && sed -i -e "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php/7.2/php.ini \
