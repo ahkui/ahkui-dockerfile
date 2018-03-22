@@ -61,10 +61,10 @@ ENV \
         runit"
 
 # PHP.earth Alpine repository for better developer experience
-ADD https://repos.php.earth/alpine/phpearth.rsa.pub /etc/apk/keys/phpearth.rsa.pub
 
+ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 RUN set -x \
-    && echo "https://repos.php.earth/alpine/v3.7" >> /etc/apk/repositories \
+    && echo "https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories \
     && apk add --no-cache $DEPS \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
@@ -89,19 +89,7 @@ RUN mkdir /run/nginx \
 
 
 
-RUN apk add --update --no-cache libintl icu icu-dev libxml2-dev \
-    && docker-php-ext-install intl soap
-RUN docker-php-ext-install mysqli pdo pdo_mysql
-RUN apk add --update --no-cache \
-        freetype-dev \
-        libjpeg-turbo-dev \
-        libmcrypt-dev \
-        libpng-dev \
-    && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" iconv mcrypt \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" gd
-RUN apk add --update --no-cache gmp gmp-dev \
-    && docker-php-ext-install gmp
+RUN apk add --update --no-cache php7.2-mcrypt php7.2-mysqli php7.2-pdo
 RUN apk add --update --no-cache git
 
 
