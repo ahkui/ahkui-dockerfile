@@ -79,7 +79,7 @@ RUN mkdir /run/nginx \
     && sed -i -e "s/group = www-data/group = root/g" /etc/php/7.2/php-fpm.d/www.conf \
     && sed -i -e "s/listen.owner = www-data/listen.owner = root/g" /etc/php/7.2/php-fpm.d/www.conf \
     && sed -i -e "s/listen.group = www-data/listen.group = root/g" /etc/php/7.2/php-fpm.d/www.conf \
-    && echo -e "server {\n\tlisten 80 default_server;\n\tlisten [::]:80 default_server;\n\tlisten 443 ssl default_server;\n\tlisten [::]:443 ssl default_server;\n\troot /var/www/public;\n\tindex index.php;\n\tserver_name localhost;\n\tlocation / {\n\t\ttry_files \$uri \$uri/ /index.php?$query_string;\n\t}\n\tlocation ~ \.php$ {\n\t\tinclude fastcgi.conf;\n\t\tfastcgi_pass unix:/run/php/php-fpm.sock;\n\t\tfastcgi_split_path_info ^(.+\.php)(/.+)$;\n\t\tfastcgi_read_timeout 600;\n\t}\n\tlocation ~ /\.ht {\n\t\tdeny all;\n\t}\n}\n" > /etc/nginx/conf.d/default.conf
+    && echo -e "server {\n\tlisten 80 default_server;\n\tlisten [::]:80 default_server;\n\tlisten 443 ssl default_server;\n\tlisten [::]:443 ssl default_server;\n\troot /var/www/public;\n\tindex index.php;\n\tserver_name localhost;\n\tlocation / {\n\t\ttry_files \$uri \$uri/ /index.php?\$query_string;\n\t}\n\tlocation ~ \.php$ {\n\t\tinclude fastcgi.conf;\n\t\tfastcgi_pass unix:/run/php/php-fpm.sock;\n\t\tfastcgi_split_path_info ^(.+\.php)(/.+)$;\n\t\tfastcgi_read_timeout 600;\n\t}\n\tlocation ~ /\.ht {\n\t\tdeny all;\n\t}\n}\n" > /etc/nginx/conf.d/default.conf
 
 EXPOSE 80 443
 
