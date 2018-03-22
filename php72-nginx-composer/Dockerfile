@@ -4,7 +4,7 @@ ARG BUILD_DATE
 ARG VCS_REF
 
 LABEL org.label-schema.build-date=$BUILD_DATE \
-      org.label-schema.vcs-url="@php https://github.com/php-earth/docker-php.git" \
+      org.label-schema.vcs-url="https://github.com/php-earth/docker-php.git" \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.schema-version="1.0" \
       org.label-schema.vendor="PHP.earth" \
@@ -18,51 +18,49 @@ ENV \
     # Persistent runtime dependencies
     DEPS="nginx \
         nginx-mod-http-headers-more \
-        php@php \
-        php-phar@php \
-        php-bcmath@php \
-        php-calendar@php \
-        php-mbstring@php \
-        php-exif@php \
-        php-ftp@php \
-        php-openssl@php \
-        php-zip@php \
-        php-sysvsem@php \
-        php-sysvshm@php \
-        php-sysvmsg@php \
-        php-shmop@php \
-        php-sockets@php \
-        php-zlib@php \
-        php-bz2@php \
-        php-curl@php \
-        php-simplexml@php \
-        php-xml@php \
-        php-opcache@php \
-        php-dom@php \
-        php-xmlreader@php \
-        php-xmlwriter@php \
-        php-tokenizer@php \
-        php-ctype@php \
-        php-session@php \
-        php-fileinfo@php \
-        php-iconv@php \
-        php-json@php \
-        php-posix@php \
-        php-fpm@php \
-        php-mongodb@php \
-        php-redis@php \
+        php7.2 \
+        php7.2-phar \
+        php7.2-bcmath \
+        php7.2-calendar \
+        php7.2-mbstring \
+        php7.2-exif \
+        php7.2-ftp \
+        php7.2-openssl \
+        php7.2-zip \
+        php7.2-sysvsem \
+        php7.2-sysvshm \
+        php7.2-sysvmsg \
+        php7.2-shmop \
+        php7.2-sockets \
+        php7.2-zlib \
+        php7.2-bz2 \
+        php7.2-curl \
+        php7.2-simplexml \
+        php7.2-xml \
+        php7.2-opcache \
+        php7.2-dom \
+        php7.2-xmlreader \
+        php7.2-xmlwriter \
+        php7.2-tokenizer \
+        php7.2-ctype \
+        php7.2-session \
+        php7.2-fileinfo \
+        php7.2-iconv \
+        php7.2-json \
+        php7.2-posix \
+        php7.2-fpm \
+        php7.2-mongodb \
+        php7.2-redis \
         composer \
         phpunit \
         curl \
-        php-dev@php \
+        php7.2-dev \
         gcc \
         g++ \
         ca-certificates \
         runit"
 
-# PHP.earth Alpine repository for better developer experience
 
-# trust this project public key to trust the packages.
 ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 
 ## you may join the multiple run lines here to make it a single layer
@@ -72,12 +70,11 @@ RUN apk --update add ca-certificates
 
 # add the repository, make sure you replace the correct versions if you want.
 RUN echo "@php https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories
+# PHP.earth Alpine repository for better developer experience
 
-# install php and some extensions
-# notice the @php is required to avoid getting default php packages from alpine instead.
-RUN apk add --no-cache --update php7@php
-RUN apk add --no-cache --update php7-mbstring@php
+ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 RUN set -x \
+    && echo "https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories \
     && apk add --no-cache $DEPS \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
@@ -102,7 +99,7 @@ RUN mkdir /run/nginx \
 
 
 
-RUN apk add --update --no-cache php7.2-mcrypt php7.2-mysqli php7.2-pdo
+RUN apk add --update --no-cache php7.2-mcrypt@php php7.2-mysqli@php php7.2-pdo@php
 RUN apk add --update --no-cache git
 
 
