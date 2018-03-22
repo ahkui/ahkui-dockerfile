@@ -63,6 +63,7 @@ ENV \
 # PHP.earth Alpine repository for better developer experience
 
 ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
+RUN apk --update add ca-certificates
 RUN set -x \
     && echo "https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories \
     && apk add --no-cache $DEPS \
