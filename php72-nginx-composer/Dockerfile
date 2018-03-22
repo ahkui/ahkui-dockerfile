@@ -18,43 +18,43 @@ ENV \
     # Persistent runtime dependencies
     DEPS="nginx \
         nginx-mod-http-headers-more \
-        php7.2@php \
-        php7.2-phar@php \
-        php7.2-bcmath@php \
-        php7.2-calendar@php \
-        php7.2-mbstring@php \
-        php7.2-exif@php \
-        php7.2-ftp@php \
-        php7.2-openssl@php \
-        php7.2-zip@php \
-        php7.2-sysvsem@php \
-        php7.2-sysvshm@php \
-        php7.2-sysvmsg@php \
-        php7.2-shmop@php \
-        php7.2-sockets@php \
-        php7.2-zlib@php \
-        php7.2-bz2@php \
-        php7.2-curl@php \
-        php7.2-simplexml@php \
-        php7.2-xml@php \
-        php7.2-opcache@php \
-        php7.2-dom@php \
-        php7.2-xmlreader@php \
-        php7.2-xmlwriter@php \
-        php7.2-tokenizer@php \
-        php7.2-ctype@php \
-        php7.2-session@php \
-        php7.2-fileinfo@php \
-        php7.2-iconv@php \
-        php7.2-json@php \
-        php7.2-posix@php \
-        php7.2-fpm@php \
-        php7.2-mongodb@php \
-        php7.2-redis@php \
+        php@php \
+        php-phar@php \
+        php-bcmath@php \
+        php-calendar@php \
+        php-mbstring@php \
+        php-exif@php \
+        php-ftp@php \
+        php-openssl@php \
+        php-zip@php \
+        php-sysvsem@php \
+        php-sysvshm@php \
+        php-sysvmsg@php \
+        php-shmop@php \
+        php-sockets@php \
+        php-zlib@php \
+        php-bz2@php \
+        php-curl@php \
+        php-simplexml@php \
+        php-xml@php \
+        php-opcache@php \
+        php-dom@php \
+        php-xmlreader@php \
+        php-xmlwriter@php \
+        php-tokenizer@php \
+        php-ctype@php \
+        php-session@php \
+        php-fileinfo@php \
+        php-iconv@php \
+        php-json@php \
+        php-posix@php \
+        php-fpm@php \
+        php-mongodb@php \
+        php-redis@php \
         composer \
         phpunit \
         curl \
-        php7.2-dev@php \
+        php-dev@php \
         gcc \
         g++ \
         ca-certificates \
