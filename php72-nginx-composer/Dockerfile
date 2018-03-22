@@ -62,10 +62,22 @@ ENV \
 
 # PHP.earth Alpine repository for better developer experience
 
+# trust this project public key to trust the packages.
 ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 
+## you may join the multiple run lines here to make it a single layer
+
+# make sure you can use HTTPS
+RUN apk --update add ca-certificates
+
+# add the repository, make sure you replace the correct versions if you want.
+RUN echo "@php https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories
+
+# install php and some extensions
+# notice the @php is required to avoid getting default php packages from alpine instead.
+RUN apk add --no-cache --update php7@php
+RUN apk add --no-cache --update php7-mbstring@php
 RUN set -x \
-    && echo "@php http://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories \
     && apk add --no-cache $DEPS \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
