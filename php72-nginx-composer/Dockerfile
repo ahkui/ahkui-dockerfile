@@ -1,21 +1,7 @@
 FROM alpine:3.7
 
-ARG BUILD_DATE
-ARG VCS_REF
-
-LABEL org.label-schema.build-date=$BUILD_DATE \
-      org.label-schema.vcs-url="https://github.com/php-earth/docker-php.git" \
-      org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.schema-version="1.0" \
-      org.label-schema.vendor="PHP.earth" \
-      org.label-schema.name="docker-php" \
-      org.label-schema.description="Docker For PHP Developers - Docker image with PHP 7.2, Nginx, and Alpine" \
-      org.label-schema.url="https://github.com/php-earth/docker-php"
-
 ENV \
-    # When using Composer, disable the warning about running commands as root/super user
     COMPOSER_ALLOW_SUPERUSER=1 \
-    # Persistent runtime dependencies
     DEPS="nginx \
         nginx-mod-http-headers-more \
         php7.2 \
@@ -57,41 +43,26 @@ ENV \
         php7.2-dev \
         gcc \
         g++ \
-        ca-certificates \
-        runit"
+        ca-certificates"
 
 
 ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
-
-## you may join the multiple run lines here to make it a single layer
-
-# make sure you can use HTTPS
-RUN apk --update add ca-certificates
-
-# add the repository, make sure you replace the correct versions if you want.
-RUN echo "@php https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories
-# PHP.earth Alpine repository for better developer experience
-
 ADD https://repos.php.earth/alpine/phpearth.rsa.pub /etc/apk/keys/phpearth.rsa.pub
-
+RUN apk --update add ca-certificates
+RUN echo "@php https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories
 RUN set -x \
     && echo "https://repos.php.earth/alpine/v3.7" >> /etc/apk/repositories \
     && apk add --no-cache $DEPS \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
-
 RUN apk add --no-cache php7.2-mcrypt@php php7.2-mysqli@php php7.2-pdo@php
 RUN apk add --no-cache git
-
-
-RUN sed -i -e"s/worker_processes auto/worker_processes 5/" /etc/nginx/nginx.conf && \
-    sed -i -e"s/keepalive_timeout\s*65/keepalive_timeout 2/" /etc/nginx/nginx.conf && \
-    sed -i -e"s/keepalive_timeout 2/keepalive_timeout 2;\n\tproxy_buffer_size 256k;\n\tproxy_buffers 4 512k;\n\tproxy_busy_buffers_size 512k/" /etc/nginx/nginx.conf && \
-    sed -i -e"s/client_max_body_size 1m;/client_max_body_size 128m;/" /etc/nginx/nginx.conf && \
-    sed -i -e"s/user nginx/user root/" /etc/nginx/nginx.conf 
-
-
 RUN mkdir /run/nginx \
+    && sed -i -e"s/worker_processes auto/worker_processes 5/" /etc/nginx/nginx.conf \
+    && sed -i -e"s/keepalive_timeout\s*65/keepalive_timeout 2/" /etc/nginx/nginx.conf \
+    && sed -i -e"s/keepalive_timeout 2/keepalive_timeout 2;\n\tproxy_buffer_size 256k;\n\tproxy_buffers 4 512k;\n\tproxy_busy_buffers_size 512k/" /etc/nginx/nginx.conf \
+    && sed -i -e"s/client_max_body_size 1m;/client_max_body_size 128m;/" /etc/nginx/nginx.conf \
+    && sed -i -e"s/user nginx/user root/" /etc/nginx/nginx.conf \
     && sed -i -e "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php/7.2/php.ini \
     && sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc/php/7.2/php.ini \
     && sed -i -e "s/post_max_size\s*=\s*8M/post_max_size = 100M/g" /etc/php/7.2/php.ini \
