@@ -72,9 +72,10 @@ RUN apk --update add ca-certificates
 RUN echo "@php https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories
 # PHP.earth Alpine repository for better developer experience
 
-ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
+ADD https://repos.php.earth/alpine/phpearth.rsa.pub /etc/apk/keys/phpearth.rsa.pub
+
 RUN set -x \
-    && echo "https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories \
+    && echo "https://repos.php.earth/alpine/v3.7" >> /etc/apk/repositories \
     && apk add --no-cache $DEPS \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
