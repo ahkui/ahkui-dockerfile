@@ -83,6 +83,14 @@ RUN set -x \
 RUN apk add --no-cache php7.2-mcrypt@php php7.2-mysqli@php php7.2-pdo@php
 RUN apk add --no-cache git
 
+
+RUN sed -i -e"s/worker_processes auto/worker_processes 5/" /etc/nginx/nginx.conf && \
+    sed -i -e"s/keepalive_timeout\s*65/keepalive_timeout 2/" /etc/nginx/nginx.conf && \
+    sed -i -e"s/keepalive_timeout 2/keepalive_timeout 2;\n\tproxy_buffer_size 256k;\n\tproxy_buffers 4 512k;\n\tproxy_busy_buffers_size 512k/" /etc/nginx/nginx.conf && \
+    sed -i -e"s/client_max_body_size 1m;/client_max_body_size 128m;/" /etc/nginx/nginx.conf && \
+    sed -i -e"s/user nginx/user root/" /etc/nginx/nginx.conf 
+
+
 RUN mkdir /run/nginx \
     && sed -i -e "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php/7.2/php.ini \
     && sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc/php/7.2/php.ini \
