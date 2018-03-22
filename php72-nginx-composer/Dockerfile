@@ -112,7 +112,7 @@ RUN mkdir /run/nginx \
 
 EXPOSE 80 443
 
-CMD /usr/bin/php-fpm -D; nginx -g "daemon off;"
+CMD php-fpm -D -R; nginx -g "daemon off;"
 
 
 
