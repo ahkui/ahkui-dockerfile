@@ -55,7 +55,7 @@ RUN set -x \
     && apk add --no-cache $DEPS \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
-RUN apk add --no-cache php7.2-mcrypt@php php7.2-mysqli@php php7.2-pdo@php
+RUN apk add --no-cache php7.2-mcrypt@php php7.2-mysqli@php php7.2-pdo@php php7.2-pdo_mysql@php
 RUN apk add --no-cache git
 RUN mkdir /run/nginx \
     && sed -i -e"s/worker_processes auto/worker_processes 5/" /etc/nginx/nginx.conf \
